@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extended Art TCG</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header>
+
+    <div class="header-top">
+
+        <div class="logo">
+
+            <h1>🎴 Extended Art TCG</h1>
+
+            <p>Proxy • Extended Art • Binder Collection</p>
+
+        </div>
+
+        <div class="header-actions">
+
+            <button id="cart-button">
+                🛒 <span id="cart-count">0</span>
+            </button>
+
+        </div>
+
+    </div>
+
+    <div class="search-bar">
+
+        <input
+            type="text"
+            id="search-input"
+            placeholder="🔍 Tìm kiếm tên card..."
+        >
+
+    </div>
+
+    <div class="filter-bar">
+
+        <button class="filter-btn active" onclick="filterGame('all', this)">
+            Tất cả
+        </button>
+
+        <button class="filter-btn" onclick="filterGame('Pokemon', this)">
+            Pokémon
+        </button>
+
+        <button class="filter-btn" onclick="filterGame('One Piece', this)">
+            One Piece
+        </button>
+
+        <button class="filter-btn" onclick="filterGame('Yu-Gi-Oh', this)">
+            Yu-Gi-Oh
+        </button>
+
+    </div>
+
+</header>
+<section class="hero-banner">
+
+    <div class="hero-content">
+
+        <h2>Extended Art TCG</h2>
+
+        <p>
+            Hình ảnh mở rộng dành cho Pokémon • One Piece • Yu-Gi-Oh
+        </p>
+
+        <a href="#card-list" class="hero-button">
+            Xem sản phẩm
+        </a>
+
+    </div>
+
+</section>
+
+
+<div class="container">
+
+ <div class="menu">
+
+    <details open>
+
+        <summary>Pokémon</summary>
+
+        <ul>
+
+            <li>
+
+    Scarlet & Violet
+
+    <ul>
+
+        <li onclick="filterSet('M1')">M1</li>
+        <li onclick="filterSet('M2')">M2</li>
+        <li onclick="filterSet('M3')">M3</li>
+       <li onclick="filterSet('M4')">M4</li>
+        <li onclick="filterSet('M5')">M5</li>
+
+    </ul>
+
+</li>
+
+            <li>Team Rocket</li>
+
+        </ul>
+
+    </details>
+
+    <details>
+
+        <summary>One Piece</summary>
+
+        <ul>
+
+            <li>OP01</li>
+            <li>OP02</li>
+            <li>OP14</li>
+            <li>OP15</li>
+            <li>OP16</li>
+
+        </ul>
+
+    </details>
+
+</div>
+
+    <main>
+
+        <h2>Sản phẩm mới</h2>
+
+        <div class="cards">
+
+    <div id="card-list" class="product-grid"></div>
+
+</div>
+
+    </main>
+
+
+<div id="cart-sidebar" class="cart-sidebar">
+
+    <div class="cart-header">
+
+        <h2>🛒 Giỏ hàng</h2>
+
+        <button id="close-cart">✖</button>
+
+    </div>
+
+    <div id="cart-items">
+
+        <p>Chưa có sản phẩm nào.</p>
+
+    </div>
+
+    <div class="cart-footer">
+
+        <h3>Tổng tiền: <span id="cart-total">0đ</span></h3>
+
+        <button id="checkout-btn">
+
+            Thanh toán
+
+        </button>
+
+    </div>
+
+</div>
+
+<div id="image-modal" class="image-modal">
+
+    <span id="close-image">&times;</span>
+
+    <img id="modal-image">
+
+</div>
+<script src="js/script.js"></script>
+
+</body>
+</html>

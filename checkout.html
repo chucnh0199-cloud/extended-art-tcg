@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Thanh toán</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+<header>
+
+    <div class="header-top">
+
+        <h1>🎴 Extended Art TCG</h1>
+
+        <button onclick="history.back()">
+            ← Quay lại
+        </button>
+
+    </div>
+
+</header>
+
+<main class="checkout-page">
+
+    <div class="checkout-form">
+
+    <h2>Thông tin khách hàng</h2>
+
+    <label for="customer-name">
+        👤 Họ và tên
+    </label>
+
+    <input
+        type="text"
+        id="customer-name"
+        placeholder="Nhập họ và tên"
+    >
+
+    <label for="customer-phone">
+        📞 Số điện thoại
+    </label>
+
+    <input
+        type="text"
+        id="customer-phone"
+        placeholder="Nhập số điện thoại"
+    >
+
+    <label for="customer-address">
+        📍 Địa chỉ nhận hàng
+    </label>
+
+    <input
+        type="text"
+        id="customer-address"
+        placeholder="Nhập địa chỉ nhận hàng"
+    >
+
+    <label for="customer-note">
+        🚚 Ghi chú giao hàng
+    </label>
+
+    <textarea
+        id="customer-note"
+        placeholder="Ví dụ: Giao giờ hành chính, gọi trước khi giao..."
+    ></textarea>
+
+</div>
+
+    <div class="checkout-summary">
+
+        <h2>Đơn hàng</h2>
+
+        <div id="checkout-items">
+
+        </div>
+
+        <h3>
+
+            Tổng tiền:
+
+            <span id="checkout-total">0đ</span>
+
+        </h3>
+
+        <button id="confirm-order">
+
+            Xác nhận đặt hàng
+
+        </button>
+
+    </div>
+
+</main>
+
+<div id="order-modal" class="order-modal">
+
+    <div class="order-box">
+
+        <h2>Xác nhận đơn hàng</h2>
+
+        <div id="order-preview">
+
+        </div>
+
+        <div class="order-buttons">
+
+            <button id="cancel-order">
+                Quay lại
+            </button>
+
+            <button id="confirm-order-final">
+                Xác nhận
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="js/checkout.js"></script>
+
+</body>
+
+</html>
