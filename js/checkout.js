@@ -221,4 +221,8 @@ if (confirmFinalBtn) {
 
     console.error(error);
 
-}    
+    }
+
+    });
+
+}
