@@ -1,6 +1,20 @@
 import { createClient } from "@supabase/supabase-js";
 
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers":
+    "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Methods": "POST, OPTIONS",
+};
+
 Deno.serve(async (req) => {
+  // Xử lý CORS
+  if (req.method === "OPTIONS") {
+    return new Response("ok", {
+      headers: corsHeaders,
+    });
+  }
+
   try {
     const supabase = createClient(
       Deno.env.get("SUPABASE_URL")!,
@@ -15,15 +29,36 @@ Deno.serve(async (req) => {
       address,
       note,
       total,
-      items
+      items,
     } = body;
 
-    // Sinh mã đơn hàng
+    // Kiểm tra dữ liệu
+    if (
+      !customer_name ||
+      !phone ||
+      !address ||
+      !items ||
+      !Array.isArray(items) ||
+      items.length === 0
+    ) {
+      return Response.json(
+        {
+          success: false,
+          error: "Thiếu thông tin đơn hàng",
+        },
+        {
+          status: 400,
+          headers: corsHeaders,
+        }
+      );
+    }
+
+    // Tạo mã đơn
     const orderCode =
       "ORD-" +
       new Date().getTime();
 
-    // Lưu bảng orders
+    // Lưu orders
     const { data: order, error: orderError } = await supabase
       .from("orders")
       .insert({
@@ -33,7 +68,7 @@ Deno.serve(async (req) => {
         address,
         note,
         total,
-        status: "Chờ xác nhận"
+        status: "Chờ xác nhận",
       })
       .select()
       .single();
@@ -49,7 +84,7 @@ Deno.serve(async (req) => {
       product_image: item.product_image,
       price: item.price,
       quantity: item.quantity,
-      subtotal: item.subtotal
+      subtotal: item.subtotal,
     }));
 
     const { error: itemError } = await supabase
@@ -60,21 +95,26 @@ Deno.serve(async (req) => {
       throw itemError;
     }
 
-    return Response.json({
-      success: true,
-      orderId: order.order_code
-    });
-
+    return Response.json(
+      {
+        success: true,
+        orderId: order.order_code,
+      },
+      {
+        headers: corsHeaders,
+      }
+    );
   } catch (err) {
     console.error(err);
 
     return Response.json(
       {
         success: false,
-        error: String(err)
+        error: String(err),
       },
       {
-        status: 500
+        status: 500,
+        headers: corsHeaders,
       }
     );
   }
