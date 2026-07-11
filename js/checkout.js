@@ -1,3 +1,6 @@
+
+console.log("Supabase đã kết nối:", supabase);
+
 const cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 const checkoutItems = document.getElementById("checkout-items");
@@ -167,47 +170,55 @@ if (confirmFinalBtn) {
 
         const orderData = {
 
-            name: name,
-            phone: phone,
-            address: address,
-            note: note,
-            products: products,
-            total: total
+    customer_name: name,
+    phone: phone,
+    address: address,
+    note: note,
+    total: total,
 
-        };
+    items: cart.map(card => ({
 
-        try {
+        product_name: card.name,
+        product_image: card.image,
+        price: Number(card.price),
+        quantity: card.quantity,
+        subtotal: Number(card.price) * card.quantity
 
-            const response = await fetch(
-                "https://script.google.com/macros/s/AKfycbzPiptvR0PenYEPKYfv-jgnkiCiFbmb2ufS3qXkSxGI05em8xaZKIYrg7CcKrgfEDE_/exec",
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(orderData)
-                }
-            );
+    }))
 
-            const result = await response.json();
+};
 
-            alert(
-                "🎉 Đặt hàng thành công!\n\nMã đơn hàng: " +
-                result.orderId
-            );
+    try {
 
-            localStorage.removeItem("cart");
-
-            window.location.href = "index.html";
-
-        } catch (error) {
-
-            alert("❌ Không thể gửi đơn hàng.\nVui lòng thử lại.");
-
-            console.error(error);
-
+    const response = await fetch(
+        "https://ltuxsflkildzuiukifzh.supabase.co/functions/v1/create-order",
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(orderData)
         }
+    );
 
-    });
+    const result = await response.json();
 
-}
+    if (!response.ok || !result.success) {
+        throw new Error(result.error || "Đặt hàng thất bại");
+    }
+
+    alert(
+        "🎉 Đặt hàng thành công!\n\nMã đơn hàng: " +
+        result.orderId
+    );
+
+    localStorage.removeItem("cart");
+    window.location.href = "index.html";
+
+} catch (error) {
+
+    alert("❌ " + error.message);
+
+    console.error(error);
+
+}    
