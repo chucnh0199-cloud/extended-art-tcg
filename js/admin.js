@@ -89,41 +89,43 @@ async function loadOrders() {
 
 async function viewOrder(id){
 
-   async function updateStatus(orderId, status){
+    // ... toàn bộ code lấy chi tiết đơn hàng ...
+
+    modal.style.display = "block";
+
+} // <-- Kết thúc viewOrder()
+
+async function updateStatus(orderId, status){
 
     try{
 
         const response = await fetch(
             "https://ltuxsflkildzuiukifzh.supabase.co/functions/v1/update-order-status",
             {
-                method:"POST",
-                headers:{
-                    "Content-Type":"application/json"
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
                 },
-                body:JSON.stringify({
-                    order_id:orderId,
-                    status:status
+                body: JSON.stringify({
+                    order_id: orderId,
+                    status: status
                 })
             }
         );
 
         const result = await response.json();
 
-        if(!result.success){
-
+        if (!result.success) {
             throw new Error(result.error);
-
         }
 
         alert("✅ Đã cập nhật trạng thái!");
 
-        document.getElementById("order-modal").style.display="none";
+        document.getElementById("order-modal").style.display = "none";
 
         loadOrders();
 
-    }
-
-    catch(err){
+    } catch(err){
 
         console.error(err);
 
@@ -131,7 +133,8 @@ async function viewOrder(id){
 
     }
 
-} 
+}
+
     const response = await fetch(
         "https://ltuxsflkildzuiukifzh.supabase.co/functions/v1/get-order-detail",
         {
