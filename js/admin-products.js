@@ -19,5 +19,90 @@ const supabaseClient = window.supabase.createClient(
     }
 
     console.log("✅ Đăng nhập hợp lệ");
+    await loadProducts();
 
 })();
+async function loadProducts(){
+
+    try{
+
+        const response = await fetch(
+            "https://ltuxsflkildzuiukifzh.supabase.co/functions/v1/get-products"
+        );
+
+        const result = await response.json();
+
+        if(!result.success){
+
+            throw new Error(result.error);
+
+        }
+
+        const productsList =
+            document.getElementById("products-list");
+
+        productsList.innerHTML = "";
+
+        if(result.products.length === 0){
+
+            productsList.innerHTML = `
+                <h3 style="text-align:center;">
+                    Chưa có sản phẩm nào
+                </h3>
+            `;
+
+            return;
+
+        }
+
+        result.products.forEach(product=>{
+
+            const card = document.createElement("div");
+
+            card.className = "product-card";
+
+            card.innerHTML = `
+
+                <img src="${product.image || 'https://placehold.co/90x120?text=No+Image'}">
+
+                <div class="product-info">
+
+                    <h3>${product.name}</h3>
+
+                    <p>Danh mục: ${product.category ?? ""}</p>
+
+                    <p>Giá:
+                        ${Number(product.price).toLocaleString()}đ
+                    </p>
+
+                </div>
+
+                <button>
+
+                    ✏️ Sửa
+
+                </button>
+
+                <button>
+
+                    🗑 Xóa
+
+                </button>
+
+            `;
+
+            productsList.appendChild(card);
+
+        });
+
+    }
+
+    catch(err){
+
+        console.error(err);
+
+        alert("Không tải được sản phẩm.");
+
+    }
+
+}
