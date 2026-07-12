@@ -8,17 +8,23 @@ async function loadOrders() {
 
     try {
 
+        console.log("Chuẩn bị gọi get-orders");
+
         const response = await fetch(
             "https://ltuxsflkildzuiukifzh.supabase.co/functions/v1/get-orders"
         );
 
+        console.log("Status:", response.status);
+
         const result = await response.json();
 
+        console.log("Result:", result);
+
         if (!result.success) {
-
             throw new Error(result.error);
-
         }
+
+        // phần còn lại giữ nguyên...
 
         ordersList.innerHTML = "";
 
