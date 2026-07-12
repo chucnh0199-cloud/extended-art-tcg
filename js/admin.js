@@ -232,28 +232,6 @@ async function updateStatus(orderId, status){
 
 } 
     
-async function viewOrder(id){
-
-    // ... toàn bộ code lấy chi tiết đơn hàng ...
-
-    modal.style.display = "block";
-
-} // <-- Kết thúc viewOrder()
-document.getElementById("close-modal").onclick=function(){
-
-    document.getElementById("order-modal").style.display="none";
-
-}
-
-window.onclick=function(e){
-
-    if(e.target.id==="order-modal"){
-
-        document.getElementById("order-modal").style.display="none";
-
-    }
-
-}
 loadDashboard();
 loadOrders();
 console.log("ADMIN JS V2 LOADED");
@@ -271,46 +249,7 @@ const closeModal = document.getElementById("close-modal");
 // DASHBOARD
 // ======================
 
-async function loadDashboard(){
 
-    try{
-
-        const response = await fetch(
-            "https://ltuxsflkildzuiukifzh.supabase.co/functions/v1/dashboard-stats"
-        );
-
-        const result = await response.json();
-
-        if(!result.success){
-
-            throw new Error(result.error);
-
-        }
-
-        document.getElementById("total-orders").textContent =
-            result.totalOrders;
-
-        document.getElementById("shipping").textContent =
-            result.shipping;
-
-        document.getElementById("completed").textContent =
-            result.completed;
-
-        document.getElementById("cancelled").textContent =
-            result.cancelled;
-
-        document.getElementById("revenue").textContent =
-            Number(result.revenue).toLocaleString() + "đ";
-
-    }
-
-    catch(err){
-
-        console.error(err);
-
-    }
-
-}
 
 // ======================
 // LOAD DANH SÁCH ĐƠN
@@ -550,51 +489,6 @@ async function viewOrder(id){
 // CẬP NHẬT TRẠNG THÁI
 // ======================
 
-async function updateStatus(orderId, status){
-
-    try{
-
-        const response = await fetch(
-            "https://ltuxsflkildzuiukifzh.supabase.co/functions/v1/update-order-status",
-            {
-                method:"POST",
-                headers:{
-                    "Content-Type":"application/json"
-                },
-                body:JSON.stringify({
-                    order_id:orderId,
-                    status:status
-                })
-            }
-        );
-
-        const result = await response.json();
-
-        if(!result.success){
-
-            throw new Error(result.error);
-
-        }
-
-        alert("✅ Đã cập nhật trạng thái!");
-
-        modal.style.display = "none";
-
-        await loadDashboard();
-
-        await loadOrders();
-
-    }
-
-    catch(err){
-
-        console.error(err);
-
-        alert("❌ Không thể cập nhật trạng thái.");
-
-    }
-
-}
 
 // ======================
 // ĐÓNG MODAL
