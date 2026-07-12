@@ -84,6 +84,8 @@ async function loadOrders() {
             "<h2>Lỗi tải dữ liệu</h2>";
 
     }
+}
+
 async function loadDashboard(){
 
     try{
@@ -124,16 +126,6 @@ async function loadDashboard(){
     }
 
 }
-
-}
-
-async function viewOrder(id){
-
-    // ... toàn bộ code lấy chi tiết đơn hàng ...
-
-    modal.style.display = "block";
-
-} // <-- Kết thúc viewOrder()
 
 async function updateStatus(orderId, status){
 
@@ -273,7 +265,13 @@ async function updateStatus(orderId, status){
 
     modal.style.display="block";
 
-}
+async function viewOrder(id){
+
+    // ... toàn bộ code lấy chi tiết đơn hàng ...
+
+    modal.style.display = "block";
+
+} // <-- Kết thúc viewOrder()
 document.getElementById("close-modal").onclick=function(){
 
     document.getElementById("order-modal").style.display="none";
