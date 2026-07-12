@@ -102,6 +102,13 @@ Deno.serve(async (req) => {
     // Gửi thông báo Telegram
     // =======================
 
+const productList = items
+  .map(
+    (item: any) =>
+      `• ${item.product_name} ×${item.quantity}`
+  )
+  .join("\n");
+    
     const message =
 `🛒 ĐƠN HÀNG MỚI
 
@@ -119,8 +126,8 @@ ${address}
 💰 Tổng tiền:
 ${Number(total).toLocaleString()}đ
 
-📦 Số sản phẩm:
-${items.length}
+📦 Sản phẩm:
+${productList}
 
 📝 Ghi chú:
 ${note || "Không có"}
