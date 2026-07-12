@@ -84,6 +84,46 @@ async function loadOrders() {
             "<h2>Lỗi tải dữ liệu</h2>";
 
     }
+async function loadDashboard(){
+
+    try{
+
+        const response = await fetch(
+            "https://ltuxsflkildzuiukifzh.supabase.co/functions/v1/dashboard-stats"
+        );
+
+        const result = await response.json();
+
+        if(!result.success){
+
+            throw new Error(result.error);
+
+        }
+
+        document.getElementById("total-orders").textContent =
+            result.totalOrders;
+
+        document.getElementById("shipping").textContent =
+            result.shipping;
+
+        document.getElementById("completed").textContent =
+            result.completed;
+
+        document.getElementById("cancelled").textContent =
+            result.cancelled;
+
+        document.getElementById("revenue").textContent =
+            Number(result.revenue).toLocaleString() + "đ";
+
+    }
+
+    catch(err){
+
+        console.error(err);
+
+    }
+
+}
 
 }
 
@@ -124,6 +164,7 @@ async function updateStatus(orderId, status){
         document.getElementById("order-modal").style.display = "none";
 
         loadOrders();
+        loadDashboard();
 
     } catch(err){
 
@@ -248,4 +289,5 @@ window.onclick=function(e){
     }
 
 }
+loadDashboard();
 loadOrders();
