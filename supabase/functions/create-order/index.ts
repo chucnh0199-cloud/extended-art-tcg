@@ -21,6 +21,9 @@ Deno.serve(async (req) => {
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
     );
 
+    const BOT_TOKEN = Deno.env.get("TELEGRAM_BOT_TOKEN")!;
+    const CHAT_ID = Deno.env.get("TELEGRAM_CHAT_ID")!;
+
     const body = await req.json();
 
     const {
@@ -95,6 +98,61 @@ Deno.serve(async (req) => {
       throw itemError;
     }
 
+    // =======================
+    // Gửi thông báo Telegram
+    // =======================
+
+    const message =
+`🛒 ĐƠN HÀNG MỚI
+
+🆔 ${order.order_code}
+
+👤 Khách hàng:
+${customer_name}
+
+📞 SĐT:
+${phone}
+
+📍 Địa chỉ:
+${address}
+
+💰 Tổng tiền:
+${Number(total).toLocaleString()}đ
+
+📦 Số sản phẩm:
+${items.length}
+
+📝 Ghi chú:
+${note || "Không có"}
+
+⏰ ${new Date().toLocaleString("vi-VN")}`;
+
+try {
+
+  const telegramResponse = await fetch(
+    `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        chat_id: CHAT_ID,
+        text: message,
+      }),
+    }
+  );
+
+  const telegramResult = await telegramResponse.json();
+
+  console.log("Telegram:", telegramResult);
+
+} catch (telegramError) {
+
+  console.error("Telegram Error:", telegramError);
+
+}
+
     return Response.json(
       {
         success: true,
@@ -106,7 +164,7 @@ Deno.serve(async (req) => {
     );
   } catch (err) {
     console.error(err);
-
+    
     return Response.json(
       {
         success: false,
