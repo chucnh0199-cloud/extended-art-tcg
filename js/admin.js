@@ -1,7 +1,10 @@
 console.log("ADMIN JS ĐÃ CHẠY");
+
 const ordersList = document.getElementById("orders-list");
-console.log("LOAD ORDERS");
+
 async function loadOrders() {
+
+    console.log("LOAD ORDERS");
 
     try {
 
@@ -167,3 +170,4 @@ window.onclick=function(e){
     }
 
 }
+loadOrders();
