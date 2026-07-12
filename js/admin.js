@@ -89,6 +89,49 @@ async function loadOrders() {
 
 async function viewOrder(id){
 
+   async function updateStatus(orderId, status){
+
+    try{
+
+        const response = await fetch(
+            "https://ltuxsflkildzuiukifzh.supabase.co/functions/v1/update-order-status",
+            {
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify({
+                    order_id:orderId,
+                    status:status
+                })
+            }
+        );
+
+        const result = await response.json();
+
+        if(!result.success){
+
+            throw new Error(result.error);
+
+        }
+
+        alert("✅ Đã cập nhật trạng thái!");
+
+        document.getElementById("order-modal").style.display="none";
+
+        loadOrders();
+
+    }
+
+    catch(err){
+
+        console.error(err);
+
+        alert("❌ Không thể cập nhật trạng thái.");
+
+    }
+
+} 
     const response = await fetch(
         "https://ltuxsflkildzuiukifzh.supabase.co/functions/v1/get-order-detail",
         {
@@ -155,7 +198,33 @@ async function viewOrder(id){
         <h3>Tổng:
 
         ${Number(order.total).toLocaleString()}đ</h3>
+        <hr>
 
+<h3>Cập nhật trạng thái</h3>
+
+<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:15px;">
+
+<button onclick="updateStatus(${order.id},'Chờ xác nhận')">
+🟡 Chờ xác nhận
+</button>
+
+<button onclick="updateStatus(${order.id},'Đã xác nhận')">
+🔵 Đã xác nhận
+</button>
+
+<button onclick="updateStatus(${order.id},'Đang giao')">
+🚚 Đang giao
+</button>
+
+<button onclick="updateStatus(${order.id},'Hoàn thành')">
+✅ Hoàn thành
+</button>
+
+<button onclick="updateStatus(${order.id},'Đã hủy')">
+❌ Đã hủy
+</button>
+
+</div>
     `;
 
     modal.style.display="block";
