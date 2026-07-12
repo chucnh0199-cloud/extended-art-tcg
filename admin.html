@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
 
     <meta charset="UTF-8">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Quản trị đơn hàng</title>
+    <title>Extended Art TCG - Admin</title>
 
     <link rel="stylesheet" href="css/admin.css">
 
@@ -18,9 +19,60 @@
 
     <h1>📦 Quản trị đơn hàng</h1>
 
+    <!-- Dashboard -->
+
+    <div id="dashboard" class="dashboard">
+
+        <div class="stat-card">
+
+            <h3>📦 Tổng đơn</h3>
+
+            <p id="total-orders">0</p>
+
+        </div>
+
+        <div class="stat-card">
+
+            <h3>💰 Doanh thu</h3>
+
+            <p id="revenue">0đ</p>
+
+        </div>
+
+        <div class="stat-card">
+
+            <h3>🚚 Đang giao</h3>
+
+            <p id="shipping">0</p>
+
+        </div>
+
+        <div class="stat-card">
+
+            <h3>✅ Hoàn thành</h3>
+
+            <p id="completed">0</p>
+
+        </div>
+
+        <div class="stat-card">
+
+            <h3>❌ Đã hủy</h3>
+
+            <p id="cancelled">0</p>
+
+        </div>
+
+    </div>
+
+    <!-- Danh sách đơn -->
+
     <div id="orders-list"></div>
 
 </div>
+
+<!-- Modal -->
+
 <div id="order-modal" class="modal">
 
     <div class="modal-content">
@@ -30,36 +82,11 @@
         <div id="modal-body"></div>
 
     </div>
-<div id="dashboard" class="dashboard">
-
-    <div class="stat-card">
-        <h3>📦 Tổng đơn</h3>
-        <p id="total-orders">0</p>
-    </div>
-
-    <div class="stat-card">
-        <h3>💰 Doanh thu</h3>
-        <p id="revenue">0đ</p>
-    </div>
-
-    <div class="stat-card">
-        <h3>🚚 Đang giao</h3>
-        <p id="shipping">0</p>
-    </div>
-
-    <div class="stat-card">
-        <h3>✅ Hoàn thành</h3>
-        <p id="completed">0</p>
-    </div>
-
-    <div class="stat-card">
-        <h3>❌ Đã hủy</h3>
-        <p id="cancelled">0</p>
-    </div>
 
 </div>
-</div>
+
 <script src="js/admin.js"></script>
 
 </body>
+
 </html>
