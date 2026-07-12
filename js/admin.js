@@ -1,5 +1,6 @@
+console.log("ADMIN JS ĐÃ CHẠY");
 const ordersList = document.getElementById("orders-list");
-
+console.log("LOAD ORDERS");
 async function loadOrders() {
 
     try {
