@@ -1,8 +1,5 @@
 console.log("ADMIN JS ĐÃ CHẠY");
 
-const ordersList = document.getElementById("orders-list");
-
-
 async function loadDashboard(){
 
     try{
