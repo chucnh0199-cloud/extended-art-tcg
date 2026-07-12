@@ -1,5 +1,29 @@
 loadDashboard();
 loadOrders();
+
+const SUPABASE_URL = "https://ltuxsflkildzuiukifzh.supabase.co";
+
+const SUPABASE_ANON_KEY = "ANON_KEY_CỦA_BẠN";
+
+const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+);
+
+(async () => {
+
+    const { data } = await supabaseClient.auth.getSession();
+
+    if (!data.session) {
+
+        window.location.href = "admin-login.html";
+
+        return;
+
+    }
+
+})();
+
 console.log("ADMIN JS V2 LOADED");
 
 // ======================
@@ -279,6 +303,14 @@ window.onclick = function(event){
 // ======================
 // KHỞI ĐỘNG
 // ======================
+
+document.getElementById("logout-btn").onclick = async () => {
+
+    await supabaseClient.auth.signOut();
+
+    window.location.href = "admin-login.html";
+
+};
 
 loadDashboard();
 
