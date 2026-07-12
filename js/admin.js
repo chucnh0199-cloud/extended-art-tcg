@@ -1,6 +1,3 @@
-loadDashboard();
-loadOrders();
-
 const SUPABASE_URL = "https://ltuxsflkildzuiukifzh.supabase.co";
 
 const SUPABASE_ANON_KEY = "ANON_KEY_CỦA_BẠN";
