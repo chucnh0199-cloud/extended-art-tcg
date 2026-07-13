@@ -7,6 +7,8 @@ const supabaseClient = window.supabase.createClient(
     SUPABASE_ANON_KEY
 );
 
+let editingProduct = null;
+
 (async () => {
 
     const { data } = await supabaseClient.auth.getSession();
@@ -77,26 +79,28 @@ async function loadProducts(){
 
                 </div>
 
-                <button>
+                <button class="edit-btn">
+            ✏️ Sửa
+        </button>
 
-                    ✏️ Sửa
+        <button>
+            🗑 Xóa
+        </button>
 
-                </button>
+    `;
 
-                <button>
+    productsList.appendChild(card);
+   
+    card.querySelector(".edit-btn").onclick = () => {
 
-                    🗑 Xóa
+        openEdit(product);
 
-                </button>
+    };
 
-            `;
-
-            productsList.appendChild(card);
-
-        });
+});
 
     }
-
+    
     catch(err){
 
         console.error(err);
@@ -104,6 +108,36 @@ async function loadProducts(){
         alert("Không tải được sản phẩm.");
 
     }
+
+function openEdit(product){
+
+    editingProduct = product;
+
+    document.getElementById("edit-name").value =
+        product.name;
+
+    document.getElementById("edit-category").value =
+        product.category ?? "";
+
+    document.getElementById("edit-price").value =
+        product.price;
+
+    document.getElementById("edit-preview").src =
+        product.image;
+
+    document.getElementById("edit-image").value = "";
+
+    document.getElementById("edit-modal").style.display =
+        "block";
+
+}
+
+document.getElementById("cancel-edit").onclick = () => {
+
+    document.getElementById("edit-modal").style.display =
+        "none";
+
+};
 
 }
 

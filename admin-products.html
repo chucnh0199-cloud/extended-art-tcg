@@ -99,6 +99,55 @@
 
 <script src="js/admin-products.js"></script>
 
+<div id="edit-modal" class="modal" style="display:none;">
+
+    <div class="modal-content">
+
+        <h2>✏️ Sửa sản phẩm</h2>
+
+        <input
+            type="text"
+            id="edit-name"
+            placeholder="Tên sản phẩm"
+        >
+
+        <input
+            type="text"
+            id="edit-category"
+            placeholder="Danh mục"
+        >
+
+        <input
+            type="number"
+            id="edit-price"
+            placeholder="Giá"
+        >
+
+        <img
+            id="edit-preview"
+            style="width:120px;margin:15px 0;"
+        >
+
+        <input
+            type="file"
+            id="edit-image"
+            accept="image/*"
+        >
+
+        <br><br>
+
+        <button id="save-edit">
+            💾 Lưu thay đổi
+        </button>
+
+        <button id="cancel-edit">
+            ❌ Hủy
+        </button>
+
+    </div>
+
+</div>
+
 </body>
 
 </html>
