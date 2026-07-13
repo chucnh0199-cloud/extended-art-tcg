@@ -1,11 +1,6 @@
-import { createClient } from "jsr:@supabase/supabase-js@2";
-
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers":
-    "authorization, x-client-info, apikey, content-type",
-  "Access-Control-Allow-Methods": "POST, OPTIONS",
-};
+import { corsHeaders } from "../_shared/cors.ts";
+import { getSupabase } from "../_shared/supabase.ts";
+import { success, failure } from "../_shared/response.ts";
 
 Deno.serve(async (req) => {
 
@@ -17,10 +12,7 @@ Deno.serve(async (req) => {
 
   try {
 
-    const supabase = createClient(
-      Deno.env.get("SUPABASE_URL")!,
-      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
-    );
+    const supabase = getSupabase();
 
     const {
       name,
@@ -31,16 +23,7 @@ Deno.serve(async (req) => {
 
     if (!name || !price || !image) {
 
-      return Response.json(
-        {
-          success: false,
-          error: "Thiếu thông tin sản phẩm"
-        },
-        {
-          status: 400,
-          headers: corsHeaders,
-        }
-      );
+      return failure("Thiếu thông tin sản phẩm", 400);
 
     }
 
@@ -55,29 +38,13 @@ Deno.serve(async (req) => {
 
     if (error) throw error;
 
-    return Response.json(
-      {
-        success: true
-      },
-      {
-        headers: corsHeaders,
-      }
-    );
+    return success();
 
   } catch (err) {
 
     console.error(err);
 
-    return Response.json(
-      {
-        success: false,
-        error: String(err),
-      },
-      {
-        status: 500,
-        headers: corsHeaders,
-      }
-    );
+    return failure(err);
 
   }
 
