@@ -13,6 +13,23 @@ Deno.serve(async (req) => {
 
     const supabase = getSupabase();
 
+    const { data, error } = await supabase
+      .from("products")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) throw error;
+
+    return Response.json(
+      {
+        success: true,
+        products: data,
+      },
+      {
+        headers: corsHeaders,
+      }
+    );
+
   } catch (err) {
 
     return Response.json(
