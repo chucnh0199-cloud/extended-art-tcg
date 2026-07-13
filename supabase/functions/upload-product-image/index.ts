@@ -15,14 +15,68 @@ Deno.serve(async (req) => {
     });
   }
 
-  return Response.json(
-    {
-      success: true,
-      message: "upload-product-image is working"
-    },
-    {
-      headers: corsHeaders,
+  try {
+
+    const supabase = createClient(
+      Deno.env.get("SUPABASE_URL")!,
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
+    );
+
+    const formData = await req.formData();
+
+    const file = formData.get("file") as File;
+
+    if (!file) {
+
+      return Response.json(
+        {
+          success: false,
+          error: "Không có file"
+        },
+        {
+          status: 400,
+          headers: corsHeaders,
+        }
+      );
+
     }
-  );
+
+    const fileName =
+      `${Date.now()}-${file.name}`;
+
+    const { error } = await supabase.storage
+      .from("product-images")
+      .upload(fileName, file);
+
+    if (error) throw error;
+
+    const { data } = supabase.storage
+      .from("product-images")
+      .getPublicUrl(fileName);
+
+    return Response.json(
+      {
+        success: true,
+        url: data.publicUrl
+      },
+      {
+        headers: corsHeaders,
+      }
+    );
+
+  } catch (err) {
+
+    return Response.json(
+      {
+        success: false,
+        error: String(err),
+      },
+      {
+        status: 500,
+        headers: corsHeaders,
+      }
+    );
+
+  }
 
 });
