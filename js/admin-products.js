@@ -153,6 +153,32 @@ saveProductBtn.onclick = saveProduct;
 
 async function saveProduct(){
 
-    alert("Bắt đầu lưu sản phẩm...");
+    const name =
+        document.getElementById("product-name").value.trim();
+
+    const category =
+        document.getElementById("product-category").value.trim();
+
+    const price =
+        Number(document.getElementById("product-price").value);
+
+    const imageFile =
+        document.getElementById("product-image").files[0];
+
+    if(!name || !price || !imageFile){
+
+        alert("Vui lòng nhập đầy đủ thông tin và chọn ảnh.");
+
+        return;
+
+    }
+
+    console.log({
+        name,
+        category,
+        price,
+        imageFile
+    });
 
 }
+
