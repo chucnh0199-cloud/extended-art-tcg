@@ -198,6 +198,8 @@ const uploadResponse = await fetch(
 
 const uploadResult = await uploadResponse.json();
 
+console.log(uploadResult);
+
 if(!uploadResult.success){
 
     alert(uploadResult.error);
