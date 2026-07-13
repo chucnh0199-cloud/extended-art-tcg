@@ -1,11 +1,6 @@
-import { createClient } from "@supabase/supabase-js";
-
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers":
-    "authorization, x-client-info, apikey, content-type",
-  "Access-Control-Allow-Methods": "POST, OPTIONS",
-};
+import { corsHeaders } from "../_shared/cors.ts";
+import { success, failure } from "../_shared/response.ts";
+import { uploadImage } from "../_shared/storage.ts";
 
 Deno.serve(async (req) => {
 
@@ -17,65 +12,25 @@ Deno.serve(async (req) => {
 
   try {
 
-    const supabase = createClient(
-      Deno.env.get("SUPABASE_URL")!,
-      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
-    );
-
     const formData = await req.formData();
 
     const file = formData.get("file") as File;
 
     if (!file) {
-
-      return Response.json(
-        {
-          success: false,
-          error: "Không có file"
-        },
-        {
-          status: 400,
-          headers: corsHeaders,
-        }
-      );
-
+      return failure("Không tìm thấy file", 400);
     }
 
-    const fileName =
-      `${Date.now()}-${file.name}`;
+    const publicUrl = await uploadImage(file);
 
-    const { error } = await supabase.storage
-      .from("product-images")
-      .upload(fileName, file);
-
-    if (error) throw error;
-
-    const { data } = supabase.storage
-      .from("product-images")
-      .getPublicUrl(fileName);
-
-    return Response.json(
-      {
-        success: true,
-        url: data.publicUrl
-      },
-      {
-        headers: corsHeaders,
-      }
-    );
+    return success({
+      url: publicUrl
+    });
 
   } catch (err) {
 
-    return Response.json(
-      {
-        success: false,
-        error: String(err),
-      },
-      {
-        status: 500,
-        headers: corsHeaders,
-      }
-    );
+    console.error(err);
+
+    return failure(err);
 
   }
 
