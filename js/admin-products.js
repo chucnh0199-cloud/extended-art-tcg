@@ -180,5 +180,35 @@ async function saveProduct(){
         imageFile
     });
 
+// ======================
+// Upload ảnh
+// ======================
+
+const formData = new FormData();
+
+formData.append("file", imageFile);
+
+const uploadResponse = await fetch(
+    "https://ltuxsflkildzuiukifzh.supabase.co/functions/v1/upload-product-image",
+    {
+        method: "POST",
+        body: formData
+    }
+);
+
+const uploadResult = await uploadResponse.json();
+
+if(!uploadResult.success){
+
+    alert(uploadResult.error);
+
+    return;
+
+}
+
+const imageUrl = uploadResult.url;
+
+console.log("Ảnh đã upload:", imageUrl);
+
 }
 
