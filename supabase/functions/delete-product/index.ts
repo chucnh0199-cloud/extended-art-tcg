@@ -22,14 +22,32 @@ Deno.serve(async (req) => {
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
     );
 
-    const { id } = await req.json();
+    const { id, image } = await req.json();
 
-    const { error } = await supabase
-      .from("products")
-      .delete()
-      .eq("id", id);
+if (image) {
 
-    if (error) throw error;
+    const fileName = image.split("/").pop();
+
+    if (fileName) {
+
+        const { error: storageError } = await supabase.storage
+            .from("product-images")
+            .remove([fileName]);
+
+        if (storageError) {
+            console.error("Storage:", storageError);
+        }
+
+    }
+
+}
+
+const { error } = await supabase
+    .from("products")
+    .delete()
+    .eq("id", id);
+
+if (error) throw error;
 
     return Response.json(
       {
