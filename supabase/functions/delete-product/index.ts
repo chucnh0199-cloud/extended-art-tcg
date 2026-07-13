@@ -28,15 +28,17 @@ if (image) {
 
     const fileName = image.split("/").pop();
 
+    console.log("Image URL:", image);
+    console.log("File name:", fileName);
+
     if (fileName) {
 
-        const { error: storageError } = await supabase.storage
+        const { data, error: storageError } = await supabase.storage
             .from("product-images")
             .remove([fileName]);
 
-        if (storageError) {
-            console.error("Storage:", storageError);
-        }
+        console.log("Storage remove:", data);
+        console.log("Storage error:", storageError);
 
     }
 
