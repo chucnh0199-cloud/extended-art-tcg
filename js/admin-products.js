@@ -142,3 +142,17 @@ window.addEventListener("click", function (event) {
 
 });
 
+// ======================
+// LƯU SẢN PHẨM
+// ======================
+
+const saveProductBtn =
+    document.getElementById("save-product");
+
+saveProductBtn.onclick = saveProduct;
+
+async function saveProduct(){
+
+    alert("Bắt đầu lưu sản phẩm...");
+
+}
