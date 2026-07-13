@@ -83,7 +83,7 @@ async function loadProducts(){
             ✏️ Sửa
         </button>
 
-        <button>
+        <button class="delete-btn">
             🗑 Xóa
         </button>
 
@@ -94,6 +94,12 @@ async function loadProducts(){
     card.querySelector(".edit-btn").onclick = () => {
 
         openEdit(product);
+
+    };
+
+    card.querySelector(".delete-btn").onclick = () => {
+
+    deleteProduct(product);
 
     };
 
@@ -374,3 +380,43 @@ async function updateProduct() {
     await loadProducts();
 
 }
+
+async function deleteProduct(product){
+
+    const ok = confirm(
+        `Bạn có chắc muốn xóa "${product.name}"?`
+    );
+
+    if(!ok) return;
+
+    const response = await fetch(
+        "https://ltuxsflkildzuiukifzh.supabase.co/functions/v1/delete-product",
+        {
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify({
+                id: product.id
+            })
+        }
+    );
+
+    const result = await response.json();
+
+    console.log(result);
+
+    if(!result.success){
+
+        alert(result.error);
+
+        return;
+
+    }
+
+    alert("🗑 Đã xóa sản phẩm");
+
+    await loadProducts();
+
+}
+
