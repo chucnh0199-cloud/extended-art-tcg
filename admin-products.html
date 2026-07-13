@@ -47,6 +47,54 @@
 
 </div>
 
+<!-- Modal thêm sản phẩm -->
+
+<div id="product-modal" class="modal" style="display:none;">
+
+    <div class="modal-content">
+
+        <h2>➕ Thêm sản phẩm</h2>
+
+        <input
+            type="text"
+            id="product-name"
+            placeholder="Tên sản phẩm"
+        >
+
+        <input
+            type="text"
+            id="product-category"
+            placeholder="Danh mục"
+        >
+
+        <input
+            type="number"
+            id="product-price"
+            placeholder="Giá"
+        >
+
+        <input
+            type="file"
+            id="product-image"
+            accept="image/*"
+        >
+
+        <div style="margin-top:20px;display:flex;gap:10px;">
+
+            <button id="save-product">
+                💾 Lưu sản phẩm
+            </button>
+
+            <button id="close-product-modal">
+                ❌ Hủy
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script src="js/admin-products.js"></script>
@@ -54,3 +102,4 @@
 </body>
 
 </html>
+

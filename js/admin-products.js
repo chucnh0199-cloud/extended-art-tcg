@@ -106,3 +106,39 @@ async function loadProducts(){
     }
 
 }
+
+// ======================
+// MODAL THÊM SẢN PHẨM
+// ======================
+
+const addProductBtn =
+    document.getElementById("add-product");
+
+const productModal =
+    document.getElementById("product-modal");
+
+const closeProductModal =
+    document.getElementById("close-product-modal");
+
+addProductBtn.onclick = function () {
+
+    productModal.style.display = "block";
+
+};
+
+closeProductModal.onclick = function () {
+
+    productModal.style.display = "none";
+
+};
+
+window.addEventListener("click", function (event) {
+
+    if (event.target === productModal) {
+
+        productModal.style.display = "none";
+
+    }
+
+});
+
