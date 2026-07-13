@@ -212,5 +212,48 @@ const imageUrl = uploadResult.url;
 
 console.log("Ảnh đã upload:", imageUrl);
 
+// ======================
+// Lưu sản phẩm
+// ======================
+
+const response = await fetch(
+    "https://ltuxsflkildzuiukifzh.supabase.co/functions/v1/add-product",
+    {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            name: name,
+            category: category,
+            price: price,
+            image: imageUrl
+        })
+    }
+);
+
+const result = await response.json();
+
+console.log(result);
+
+if (!result.success) {
+
+    alert(result.error);
+
+    return;
+
+}
+
+alert("✅ Thêm sản phẩm thành công!");
+
+productModal.style.display = "none";
+
+document.getElementById("product-name").value = "";
+document.getElementById("product-category").value = "";
+document.getElementById("product-price").value = "";
+document.getElementById("product-image").value = "";
+
+await loadProducts();
+
 }
 
