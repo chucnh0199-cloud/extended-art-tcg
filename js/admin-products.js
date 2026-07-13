@@ -396,9 +396,13 @@ async function deleteProduct(product){
             headers:{
                 "Content-Type":"application/json"
             },
-            body:JSON.stringify({
-                id: product.id
-            })
+            body: JSON.stringify({
+
+    id: product.id,
+
+    image: product.image
+
+})
         }
     );
 
