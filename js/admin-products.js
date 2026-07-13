@@ -291,3 +291,86 @@ await loadProducts();
 
 }
 
+document.getElementById("save-edit").onclick = updateProduct;
+
+async function updateProduct() {
+
+    let imageUrl = editingProduct.image;
+
+    // Nếu người dùng chọn ảnh mới
+    const newImage =
+        document.getElementById("edit-image").files[0];
+
+    if (newImage) {
+
+        const formData = new FormData();
+
+        formData.append("file", newImage);
+
+        const uploadResponse = await fetch(
+            "https://ltuxsflkildzuiukifzh.supabase.co/functions/v1/upload-product-image",
+            {
+                method: "POST",
+                body: formData
+            }
+        );
+
+        const uploadResult = await uploadResponse.json();
+
+        if (!uploadResult.success) {
+
+            alert(uploadResult.error);
+
+            return;
+
+        }
+
+        imageUrl = uploadResult.url;
+
+    }
+
+    const response = await fetch(
+        "https://ltuxsflkildzuiukifzh.supabase.co/functions/v1/update-product",
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+
+                id: editingProduct.id,
+
+                name:
+                    document.getElementById("edit-name").value,
+
+                category:
+                    document.getElementById("edit-category").value,
+
+                price:
+                    Number(document.getElementById("edit-price").value),
+
+                image: imageUrl
+
+            })
+        }
+    );
+
+    const result = await response.json();
+
+    console.log(result);
+
+    if (!result.success) {
+
+        alert(result.error);
+
+        return;
+
+    }
+
+    alert("✅ Cập nhật thành công");
+
+    document.getElementById("edit-modal").style.display = "none";
+
+    await loadProducts();
+
+}
