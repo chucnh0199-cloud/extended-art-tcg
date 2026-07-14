@@ -339,4 +339,3 @@ async function loadDashboard(){
 // ======================
 
 loadDashboard();
-loadOrders();
