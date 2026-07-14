@@ -7,7 +7,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Extended Art TCG - Admin</title>
+    <title>Extended Art TCG - Dashboard</title>
 
     <link rel="stylesheet" href="css/admin.css">
 
@@ -19,97 +19,83 @@
 
     <h1>📊 Dashboard quản trị</h1>
 
-<p class="dashboard-subtitle">
-    Chào mừng bạn đến với hệ thống quản trị Extended Art TCG
-</p>
+    <p class="dashboard-subtitle">
+        Chào mừng bạn đến với hệ thống quản trị Extended Art TCG
+    </p>
 
     <!-- Dashboard -->
-
     <div id="dashboard" class="dashboard">
 
         <div class="stat-card">
-
             <h3>📦 Tổng đơn</h3>
-
             <p id="total-orders">0</p>
-
         </div>
 
         <div class="stat-card">
-
             <h3>💰 Doanh thu</h3>
-
             <p id="revenue">0đ</p>
-
         </div>
 
         <div class="stat-card">
-
             <h3>🚚 Đang giao</h3>
-
             <p id="shipping">0</p>
-
         </div>
 
         <div class="stat-card">
-
             <h3>✅ Hoàn thành</h3>
-
             <p id="completed">0</p>
-
         </div>
 
         <div class="stat-card">
-
             <h3>❌ Đã hủy</h3>
-
             <p id="cancelled">0</p>
-
         </div>
 
     </div>
 
-    <!-- Danh sách đơn -->
-
+    <!-- Menu -->
     <div class="admin-menu">
 
-    <a href="admin-products.html" class="menu-card">
-    📦
-    <h3>Quản lý sản phẩm</h3>
-    <p>Thêm, sửa, xóa sản phẩm</p>
-    </a>
+        <a href="admin-products.html" class="menu-card">
+            <div class="menu-icon">📦</div>
+            <h3>Quản lý sản phẩm</h3>
+            <p>Thêm, sửa, xóa sản phẩm</p>
+        </a>
 
-    <a href="admin-orders.html" class="menu-card">
-        🛒
-        <h3>Quản lý đơn hàng</h3>
-        <p>Xem và xử lý đơn hàng</p>
-    </a>
+        <a href="admin-orders.html" class="menu-card">
+            <div class="menu-icon">🛒</div>
+            <h3>Quản lý đơn hàng</h3>
+            <p>Xem và xử lý đơn hàng</p>
+        </a>
 
-    <a href="admin-customers.html" class="menu-card">
-        👤
-        <h3>Khách hàng</h3>
-        <p>Danh sách khách hàng</p>
-    </a>
+        <a href="admin-customers.html" class="menu-card">
+            <div class="menu-icon">👤</div>
+            <h3>Khách hàng</h3>
+            <p>Danh sách khách hàng</p>
+        </a>
 
-    <a href="#" class="menu-card">
-        📈
-        <h3>Thống kê</h3>
-        <p>Doanh thu và báo cáo</p>
-    </a>
+        <a href="#" class="menu-card">
+            <div class="menu-icon">📈</div>
+            <h3>Thống kê</h3>
+            <p>Đang phát triển</p>
+        </a>
 
-</div>
+    </div>
 
-<div class="dashboard-actions">
+    <!-- Action -->
+    <div class="dashboard-actions">
 
-    <button id="logout-btn">
-        🚪 Đăng xuất
-    </button>
+        <button id="logout-btn">
+            🚪 Đăng xuất
+        </button>
+
+    </div>
 
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<script src="js/admin.js"></script>
+<script src="js/dashboard.js"></script>
 
 </body>
 
