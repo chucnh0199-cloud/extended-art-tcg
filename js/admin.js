@@ -292,31 +292,6 @@ async function viewOrder(id){
 // CẬP NHẬT TRẠNG THÁI
 // ======================
 
-
-// ======================
-// ĐÓNG MODAL
-// ======================
-
-closeModal.onclick = function(){
-
-    modal.style.display = "none";
-
-};
-
-window.onclick = function(event){
-
-    if(event.target === modal){
-
-        modal.style.display = "none";
-
-    }
-
-};
-
-// ======================
-// KHỞI ĐỘNG
-// ======================
-
 document.getElementById("logout-btn").onclick = async () => {
 
     await supabaseClient.auth.signOut();
@@ -357,6 +332,11 @@ async function loadDashboard(){
         result.cancelled;
 
 }
+
+
+// ======================
+// KHỞI ĐỘNG
+// ======================
 
 loadDashboard();
 loadOrders();
