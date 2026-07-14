@@ -331,4 +331,37 @@ document.getElementById("logout-btn").onclick = async () => {
 
 };
 
+async function loadDashboard(){
+
+    const response = await fetch(
+        "https://ltuxsflkildzuiukifzh.supabase.co/functions/v1/get-dashboard"
+    );
+
+    const result = await response.json();
+
+    if(!result.success){
+
+        console.log(result.error);
+
+        return;
+
+    }
+
+    document.getElementById("total-orders").textContent =
+        result.totalOrders;
+
+    document.getElementById("revenue").textContent =
+        Number(result.revenue).toLocaleString() + "đ";
+
+    document.getElementById("shipping").textContent =
+        result.shipping;
+
+    document.getElementById("completed").textContent =
+        result.completed;
+
+    document.getElementById("cancelled").textContent =
+        result.cancelled;
+
+}
+
 loadOrders();
