@@ -317,12 +317,6 @@ window.onclick = function(event){
 // KHỞI ĐỘNG
 // ======================
 
-document.getElementById("products-btn").onclick = () => {
-
-    window.location.href = "admin-products.html";
-
-};
-
 document.getElementById("logout-btn").onclick = async () => {
 
     await supabaseClient.auth.signOut();
@@ -364,4 +358,5 @@ async function loadDashboard(){
 
 }
 
+loadDashboard();
 loadOrders();
