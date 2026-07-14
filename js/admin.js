@@ -21,6 +21,22 @@ const supabaseClient = window.supabase.createClient(
 
 })();
 
+(async () => {
+
+    const { data } = await supabaseClient.auth.getSession();
+
+    console.log("Current session:", data.session);
+
+    if (!data.session) {
+
+        window.location.href = "admin-login.html";
+
+        return;
+
+    }
+
+})();
+
 console.log("ADMIN JS V2 LOADED");
 
 // ======================

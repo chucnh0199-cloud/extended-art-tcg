@@ -303,20 +303,25 @@ async function updateProduct() {
 
     let imageUrl = editingProduct.image;
 
-    // Nếu người dùng chọn ảnh mới
-    const newImage =
-        document.getElementById("edit-image").files[0];
+    // Upload ảnh mới nếu có
+    const newImage = document.getElementById("edit-image").files[0];
 
     if (newImage) {
 
         const formData = new FormData();
-
         formData.append("file", newImage);
+
+        const {
+            data: { session }
+        } = await supabaseClient.auth.getSession();
 
         const uploadResponse = await fetch(
             "https://ltuxsflkildzuiukifzh.supabase.co/functions/v1/upload-product-image",
             {
                 method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${session.access_token}`
+                },
                 body: formData
             }
         );
@@ -324,14 +329,25 @@ async function updateProduct() {
         const uploadResult = await uploadResponse.json();
 
         if (!uploadResult.success) {
-
             alert(uploadResult.error);
-
             return;
-
         }
 
         imageUrl = uploadResult.url;
+
+    }
+
+    const {
+        data: { session }
+    } = await supabaseClient.auth.getSession();
+
+    if (!session) {
+
+        alert("Phiên đăng nhập đã hết.");
+
+        window.location.href = "login.html";
+
+        return;
 
     }
 
@@ -340,20 +356,18 @@ async function updateProduct() {
         {
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${session.access_token}`
             },
             body: JSON.stringify({
 
                 id: editingProduct.id,
 
-                name:
-                    document.getElementById("edit-name").value,
+                name: document.getElementById("edit-name").value,
 
-                category:
-                    document.getElementById("edit-category").value,
+                category: document.getElementById("edit-category").value,
 
-                price:
-                    Number(document.getElementById("edit-price").value),
+                price: Number(document.getElementById("edit-price").value),
 
                 image: imageUrl
 

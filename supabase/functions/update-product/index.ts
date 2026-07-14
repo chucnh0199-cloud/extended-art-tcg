@@ -1,6 +1,7 @@
 import { corsHeaders } from "../_shared/cors.ts";
 import { getSupabase } from "../_shared/supabase.ts";
 import { success, failure } from "../_shared/response.ts";
+import { requireAdmin } from "../_shared/auth.ts";
 
 Deno.serve(async (req) => {
 
@@ -11,6 +12,8 @@ Deno.serve(async (req) => {
   }
 
   try {
+
+    await requireAdmin(req);
 
     const supabase = getSupabase();
 
@@ -38,7 +41,9 @@ Deno.serve(async (req) => {
 
     if (error) throw error;
 
-    return success();
+    return success({
+      success: true
+    });
 
   } catch (err) {
 
