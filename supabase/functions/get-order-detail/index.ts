@@ -1,4 +1,4 @@
-import { createClient } from "@supabase/supabase-js";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -15,6 +15,7 @@ Deno.serve(async (req) => {
   }
 
   try {
+
     const supabase = createClient(
       Deno.env.get("SUPABASE_URL")!,
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
@@ -32,16 +33,32 @@ Deno.serve(async (req) => {
 
     const { data: items, error: itemsError } = await supabase
       .from("order_items")
-      .select("*")
+      .select(`
+        *,
+        products(
+          name,
+          image
+        )
+      `)
       .eq("order_id", order_id);
 
     if (itemsError) throw itemsError;
+
+    const formattedItems = items.map(item => ({
+
+      ...item,
+
+      product_name: item.products?.name,
+
+      product_image: item.products?.image
+
+    }));
 
     return Response.json(
       {
         success: true,
         order,
-        items,
+        items: formattedItems,
       },
       {
         headers: corsHeaders,
@@ -62,4 +79,5 @@ Deno.serve(async (req) => {
     );
 
   }
+
 });
