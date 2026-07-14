@@ -1128,3 +1128,25 @@ ORDER MODAL
 .admin-login-btn:hover{
     background:#1d4ed8;
 }
+.header-actions{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.admin-login-btn{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 16px;
+    background: #2563eb;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.admin-login-btn:hover{
+    background: #1d4ed8;
+}
