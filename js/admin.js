@@ -338,4 +338,4 @@ async function loadDashboard(){
 // KHỞI ĐỘNG
 // ======================
 
-loadDashboard();
+loadOrders();
