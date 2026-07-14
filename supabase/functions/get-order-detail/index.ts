@@ -67,11 +67,13 @@ Deno.serve(async (req) => {
 
   } catch (err) {
 
-    return Response.json(
-      {
-        success: false,
-        error: String(err),
-      },
+  console.error(err);
+
+  return Response.json(
+    {
+      success: false,
+      error: err.message ?? JSON.stringify(err),
+    },
       {
         status: 500,
         headers: corsHeaders,
