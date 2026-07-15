@@ -3,13 +3,13 @@
 
 <head>
 
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Quản lý sản phẩm</title>
+<title>Quản lý sản phẩm</title>
 
-    <link rel="stylesheet" href="css/admin-products.css">
+<link rel="stylesheet" href="css/admin-products.css">
 
 </head>
 
@@ -19,16 +19,26 @@
 
     <div class="header">
 
-        <h1>📦 Quản lý sản phẩm</h1>
-
         <div>
+
+            <h1>📦 Quản lý sản phẩm</h1>
+
+            <p class="subtitle">
+
+                Thêm • Sửa • Xóa • Tìm kiếm sản phẩm
+
+            </p>
+
+        </div>
+
+        <div class="header-buttons">
 
             <button id="add-product">
                 ➕ Thêm sản phẩm
             </button>
 
             <button id="back-admin">
-                📋 Đơn hàng
+                📊 Dashboard
             </button>
 
             <button id="logout-btn">
@@ -36,6 +46,34 @@
             </button>
 
         </div>
+
+    </div>
+
+    <div class="toolbar">
+
+        <input
+            type="text"
+            id="search-product"
+            placeholder="🔍 Tìm tên sản phẩm..."
+        >
+
+        <select id="filter-game">
+
+            <option value="">Tất cả Game</option>
+
+            <option value="Pokemon">Pokemon</option>
+
+            <option value="One Piece">One Piece</option>
+
+            <option value="Yu-Gi-Oh">Yu-Gi-Oh</option>
+
+        </select>
+
+        <select id="filter-series">
+
+            <option value="">Tất cả Series</option>
+
+        </select>
 
     </div>
 
@@ -47,9 +85,13 @@
 
 </div>
 
-<!-- Modal thêm sản phẩm -->
+<!-- ======================= -->
 
-<div id="product-modal" class="modal" style="display:none;">
+<!-- THÊM SẢN PHẨM -->
+
+<!-- ======================= -->
+
+<div id="product-modal" class="modal">
 
     <div class="modal-content">
 
@@ -64,7 +106,13 @@
         <input
             type="text"
             id="product-category"
-            placeholder="Danh mục"
+            placeholder="Game (Pokemon, One Piece...)"
+        >
+
+        <input
+            type="text"
+            id="product-series"
+            placeholder="Series (M1, OP15...)"
         >
 
         <input
@@ -79,14 +127,18 @@
             accept="image/*"
         >
 
-        <div style="margin-top:20px;display:flex;gap:10px;">
+        <div class="modal-buttons">
 
             <button id="save-product">
+
                 💾 Lưu sản phẩm
+
             </button>
 
             <button id="close-product-modal">
+
                 ❌ Hủy
+
             </button>
 
         </div>
@@ -95,7 +147,13 @@
 
 </div>
 
-<div id="edit-modal" class="modal" style="display:none;">
+<!-- ======================= -->
+
+<!-- SỬA -->
+
+<!-- ======================= -->
+
+<div id="edit-modal" class="modal">
 
     <div class="modal-content">
 
@@ -104,24 +162,25 @@
         <input
             type="text"
             id="edit-name"
-            placeholder="Tên sản phẩm"
         >
 
         <input
             type="text"
             id="edit-category"
-            placeholder="Danh mục"
+        >
+
+        <input
+            type="text"
+            id="edit-series"
         >
 
         <input
             type="number"
             id="edit-price"
-            placeholder="Giá"
         >
 
         <img
             id="edit-preview"
-            style="width:120px;margin:15px 0;"
         >
 
         <input
@@ -130,15 +189,21 @@
             accept="image/*"
         >
 
-        <br><br>
+        <div class="modal-buttons">
 
-        <button id="save-edit">
-            💾 Lưu thay đổi
-        </button>
+            <button id="save-edit">
 
-        <button id="cancel-edit">
-            ❌ Hủy
-        </button>
+                💾 Lưu thay đổi
+
+            </button>
+
+            <button id="cancel-edit">
+
+                ❌ Hủy
+
+            </button>
+
+        </div>
 
     </div>
 
@@ -151,4 +216,3 @@
 </body>
 
 </html>
-
