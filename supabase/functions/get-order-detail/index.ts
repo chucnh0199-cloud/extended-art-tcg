@@ -8,10 +8,13 @@ const corsHeaders = {
 };
 
 Deno.serve(async (req) => {
+
   if (req.method === "OPTIONS") {
+
     return new Response("ok", {
       headers: corsHeaders,
     });
+
   }
 
   try {
@@ -33,32 +36,16 @@ Deno.serve(async (req) => {
 
     const { data: items, error: itemsError } = await supabase
       .from("order_items")
-      .select(`
-        *,
-        products(
-          name,
-          image
-        )
-      `)
+      .select("*")
       .eq("order_id", order_id);
 
     if (itemsError) throw itemsError;
-
-    const formattedItems = items.map(item => ({
-
-      ...item,
-
-      product_name: item.products?.name,
-
-      product_image: item.products?.image
-
-    }));
 
     return Response.json(
       {
         success: true,
         order,
-        items: formattedItems,
+        items
       },
       {
         headers: corsHeaders,
@@ -67,13 +54,13 @@ Deno.serve(async (req) => {
 
   } catch (err) {
 
-  console.error(err);
+    console.error(err);
 
-  return Response.json(
-    {
-      success: false,
-      error: err.message ?? JSON.stringify(err),
-    },
+    return Response.json(
+      {
+        success: false,
+        error: err.message ?? String(err),
+      },
       {
         status: 500,
         headers: corsHeaders,
