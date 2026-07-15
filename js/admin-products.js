@@ -8,9 +8,9 @@ const supabaseClient = window.supabase.createClient(
     SUPABASE_ANON_KEY
 );
 
-// ==========================
+// ===========================
 // KIỂM TRA ĐĂNG NHẬP
-// ==========================
+// ===========================
 
 async function checkLogin(){
 
@@ -29,48 +29,55 @@ async function checkLogin(){
 
 }
 
-// ==========================
-// KHAI BÁO
-// ==========================
+// ===========================
+// DOM
+// ===========================
 
-const productsList=document.getElementById("products-list");
+const productsList =
+document.getElementById("products-list");
 
-const productModal=document.getElementById("product-modal");
+const productModal =
+document.getElementById("product-modal");
 
-const editModal=document.getElementById("edit-modal");
+const editModal =
+document.getElementById("edit-modal");
 
-const searchInput=document.getElementById("search-product");
+const searchInput =
+document.getElementById("search-input");
 
-const filterGame=document.getElementById("filter-game");
-
-const filterSeries=document.getElementById("filter-series");
+const categoryFilter =
+document.getElementById("category-filter");
 
 let products=[];
 
 let currentEditId=null;
 
 
-// ==========================
-// LOAD DANH SÁCH
-// ==========================
+// ===========================
+// LOAD SẢN PHẨM
+// ===========================
 
 async function loadProducts(){
 
-    productsList.innerHTML="Đang tải...";
+    productsList.innerHTML="Đang tải dữ liệu...";
 
-    const {data,error}=await supabaseClient
+    const { data,error } = await supabaseClient
 
-    .from("products")
+        .from("products")
 
-    .select("*")
+        .select("*")
 
-    .order("created_at",{ascending:false});
+        .order("created_at",{
+
+            ascending:false
+
+        });
 
     if(error){
 
         console.error(error);
 
-        productsList.innerHTML="Không tải được.";
+        productsList.innerHTML="Không tải được sản phẩm.";
 
         return;
 
@@ -80,63 +87,25 @@ async function loadProducts(){
 
     renderProducts(products);
 
-    loadSeries(products);
-
 }
 
+// ===========================
+// HIỂN THỊ
+// ===========================
 
-// ==========================
-// LOAD SERIES
-// ==========================
+function renderProducts(list){
 
-function loadSeries(data){
+    if(list.length===0){
 
-    filterSeries.innerHTML=`
+        productsList.innerHTML=`
 
-        <option value="">
+        <div class="empty-box">
 
-            Tất cả Series
+            Không có sản phẩm.
 
-        </option>
-
-    `;
-
-    const list=[...new Set(
-
-        data.map(x=>x.series)
-
-    )];
-
-    list.sort();
-
-    list.forEach(series=>{
-
-        if(!series) return;
-
-        filterSeries.innerHTML+=`
-
-            <option value="${series}">
-
-                ${series}
-
-            </option>
+        </div>
 
         `;
-
-    });
-
-}
-
-
-// ==========================
-// HIỂN THỊ
-// ==========================
-
-function renderProducts(data){
-
-    if(data.length===0){
-
-        productsList.innerHTML="Không có sản phẩm.";
 
         return;
 
@@ -144,7 +113,7 @@ function renderProducts(data){
 
     productsList.innerHTML="";
 
-    data.forEach(product=>{
+    list.forEach(product=>{
 
         const card=document.createElement("div");
 
@@ -153,11 +122,8 @@ function renderProducts(data){
         card.innerHTML=`
 
             <img
-
                 src="${product.image}"
-
                 class="product-image"
-
             >
 
             <div class="product-info">
@@ -176,7 +142,7 @@ function renderProducts(data){
 
                 <p>
 
-                    ${product.series??"-"}
+                    ${product.description ?? ""}
 
                 </p>
 
@@ -190,13 +156,17 @@ function renderProducts(data){
 
             <div class="product-actions">
 
-                <button class="edit-btn">
+                <button
+                    class="edit-btn"
+                >
 
                     ✏️ Sửa
 
                 </button>
 
-                <button class="delete-btn">
+                <button
+                    class="delete-btn"
+                >
 
                     🗑️ Xóa
 
@@ -223,47 +193,37 @@ function renderProducts(data){
     });
 
 }
-
-
-// ==========================
+// ===========================
 // TÌM KIẾM
-// ==========================
+// ===========================
 
 function applyFilter(){
 
     let list=[...products];
 
-    const keyword=
-
-        searchInput.value.toLowerCase();
+    const keyword=searchInput.value
+        .trim()
+        .toLowerCase();
 
     if(keyword){
 
-        list=list.filter(p=>
+        list=list.filter(product=>
 
-            p.name.toLowerCase()
-
-            .includes(keyword)
-
-        );
-
-    }
-
-    if(filterGame.value){
-
-        list=list.filter(p=>
-
-            p.category===filterGame.value
+            product.name
+                .toLowerCase()
+                .includes(keyword)
 
         );
 
     }
 
-    if(filterSeries.value){
+    const category=categoryFilter.value;
 
-        list=list.filter(p=>
+    if(category){
 
-            p.series===filterSeries.value
+        list=list.filter(product=>
+
+            product.category===category
 
         );
 
@@ -275,44 +235,68 @@ function applyFilter(){
 
 searchInput.oninput=applyFilter;
 
-filterGame.onchange=applyFilter;
+categoryFilter.onchange=applyFilter;
 
-filterSeries.onchange=applyFilter;
 
-// ==========================
+// ===========================
 // MỞ MODAL THÊM
-// ==========================
+// ===========================
 
-document.getElementById("add-product").onclick = () => {
+document.getElementById("add-product").onclick=()=>{
 
-    productModal.style.display = "flex";
+    document.getElementById("product-name").value="";
+
+    document.getElementById("product-category").value="";
+
+    document.getElementById("product-price").value="";
+
+    document.getElementById("product-description").value="";
+
+    document.getElementById("product-image").value="";
+
+    productModal.style.display="flex";
 
 };
 
-document.getElementById("close-product-modal").onclick = () => {
+document.getElementById("close-product-modal").onclick=()=>{
 
-    productModal.style.display = "none";
+    productModal.style.display="none";
 
 };
 
 
-// ==========================
+// ===========================
 // THÊM SẢN PHẨM
-// ==========================
+// ===========================
 
-document.getElementById("save-product").onclick = async () => {
+document.getElementById("save-product").onclick=async()=>{
 
-    const name = document.getElementById("product-name").value.trim();
+    const name=
+        document.getElementById("product-name").value.trim();
 
-    const category = document.getElementById("product-category").value.trim();
+    const category=
+        document.getElementById("product-category").value.trim();
 
-    const series = document.getElementById("product-series").value.trim();
+    const price=
+        Number(document.getElementById("product-price").value);
 
-    const price = Number(document.getElementById("product-price").value);
+    const description=
+        document.getElementById("product-description").value.trim();
 
-    const imageFile = document.getElementById("product-image").files[0];
+    const imageFile=
+        document.getElementById("product-image").files[0];
 
-    if (!name || !category || !price || !imageFile) {
+    if(
+
+        !name ||
+
+        !category ||
+
+        !price ||
+
+        !imageFile
+
+    ){
 
         alert("Vui lòng nhập đầy đủ thông tin.");
 
@@ -320,15 +304,17 @@ document.getElementById("save-product").onclick = async () => {
 
     }
 
-    const fileName = Date.now() + "_" + imageFile.name;
+    const fileName=
 
-    const { error: uploadError } = await supabaseClient.storage
+        Date.now()+"_"+imageFile.name;
+
+            const { error: uploadError } = await supabaseClient.storage
 
         .from("products")
 
         .upload(fileName, imageFile);
 
-    if (uploadError) {
+    if(uploadError){
 
         alert(uploadError.message);
 
@@ -336,13 +322,13 @@ document.getElementById("save-product").onclick = async () => {
 
     }
 
-    const { data } = supabaseClient.storage
+    const { data: imageData } = supabaseClient.storage
 
         .from("products")
 
         .getPublicUrl(fileName);
 
-    const image = data.publicUrl;
+    const image=imageData.publicUrl;
 
     const { error } = await supabaseClient
 
@@ -354,15 +340,15 @@ document.getElementById("save-product").onclick = async () => {
 
             category,
 
-            series,
-
             price,
+
+            description,
 
             image
 
         });
 
-    if (error) {
+    if(error){
 
         alert(error.message);
 
@@ -372,67 +358,83 @@ document.getElementById("save-product").onclick = async () => {
 
     alert("Đã thêm sản phẩm.");
 
-    productModal.style.display = "none";
+    productModal.style.display="none";
 
     loadProducts();
 
 };
 
 
-// ==========================
+// ===========================
 // MỞ MODAL SỬA
-// ==========================
+// ===========================
 
 function openEdit(product){
 
-    currentEditId = product.id;
+    currentEditId=product.id;
 
-    document.getElementById("edit-name").value = product.name;
+    document.getElementById("edit-name").value=
+        product.name;
 
-    document.getElementById("edit-category").value = product.category;
+    document.getElementById("edit-category").value=
+        product.category;
 
-    document.getElementById("edit-series").value = product.series ?? "";
+    document.getElementById("edit-price").value=
+        product.price;
 
-    document.getElementById("edit-price").value = product.price;
+    document.getElementById("edit-description").value=
+        product.description ?? "";
 
-    document.getElementById("edit-preview").src = product.image;
+    document.getElementById("edit-preview").src=
+        product.image;
 
-    editModal.style.display = "flex";
+    document.getElementById("edit-image").value="";
+
+    editModal.style.display="flex";
 
 }
 
-document.getElementById("cancel-edit").onclick = () => {
+document.getElementById("cancel-edit").onclick=()=>{
 
-    editModal.style.display = "none";
+    editModal.style.display="none";
 
 };
-
-
-// ==========================
+// ===========================
 // LƯU CHỈNH SỬA
-// ==========================
+// ===========================
 
 document.getElementById("save-edit").onclick = async () => {
 
-    let image = document.getElementById("edit-preview").src;
+    let image =
+        document.getElementById("edit-preview").src;
 
-    const newImage = document.getElementById("edit-image").files[0];
+    const imageFile =
+        document.getElementById("edit-image").files[0];
 
-    if(newImage){
+    if(imageFile){
 
-        const fileName = Date.now()+"_"+newImage.name;
+        const fileName =
+            Date.now()+"_"+imageFile.name;
 
-        await supabaseClient.storage
+        const { error: uploadError } =
+            await supabaseClient.storage
+                .from("products")
+                .upload(fileName,imageFile);
 
-            .from("products")
+        if(uploadError){
 
-            .upload(fileName,newImage);
+            alert(uploadError.message);
 
-        image = supabaseClient.storage
+            return;
 
-            .from("products")
+        }
 
-            .getPublicUrl(fileName).data.publicUrl;
+        const { data:imageData } =
+            supabaseClient.storage
+                .from("products")
+                .getPublicUrl(fileName);
+
+        image = imageData.publicUrl;
 
     }
 
@@ -442,13 +444,17 @@ document.getElementById("save-edit").onclick = async () => {
 
         .update({
 
-            name:document.getElementById("edit-name").value,
+            name:
+                document.getElementById("edit-name").value,
 
-            category:document.getElementById("edit-category").value,
+            category:
+                document.getElementById("edit-category").value,
 
-            series:document.getElementById("edit-series").value,
+            price:
+                Number(document.getElementById("edit-price").value),
 
-            price:Number(document.getElementById("edit-price").value),
+            description:
+                document.getElementById("edit-description").value,
 
             image:image
 
@@ -464,22 +470,24 @@ document.getElementById("save-edit").onclick = async () => {
 
     }
 
-    alert("Đã cập nhật.");
+    alert("Đã cập nhật sản phẩm.");
 
     editModal.style.display="none";
 
     loadProducts();
 
 };
-
-
-// ==========================
-// XÓA
-// ==========================
+// ===========================
+// XÓA SẢN PHẨM
+// ===========================
 
 async function deleteProduct(id){
 
-    if(!confirm("Xóa sản phẩm này?")) return;
+    const confirmDelete = confirm(
+        "Bạn có chắc muốn xóa sản phẩm này?"
+    );
+
+    if(!confirmDelete) return;
 
     const { error } = await supabaseClient
 
@@ -497,40 +505,103 @@ async function deleteProduct(id){
 
     }
 
+    alert("Đã xóa sản phẩm.");
+
     loadProducts();
 
 }
 
 
-// ==========================
-// NÚT
-// ==========================
+// ===========================
+// ĐÓNG MODAL KHI CLICK RA NGOÀI
+// ===========================
 
-document.getElementById("back-admin").onclick = ()=>{
+window.onclick = function(event){
+
+    if(event.target===productModal){
+
+        productModal.style.display="none";
+
+    }
+
+    if(event.target===editModal){
+
+        editModal.style.display="none";
+
+    }
+
+};
+
+
+// ===========================
+// NÚT DASHBOARD
+// ===========================
+
+document.getElementById("back-admin").onclick=()=>{
 
     window.location.href="admin.html";
 
 };
 
-document.getElementById("logout-btn").onclick = async ()=>{
+
+// ===========================
+// ĐĂNG XUẤT
+// ===========================
+
+document.getElementById("logout-btn").onclick=async()=>{
 
     await supabaseClient.auth.signOut();
 
     window.location.href="admin-login.html";
 
 };
-
-
-// ==========================
+// ===========================
 // KHỞI ĐỘNG
-// ==========================
+// ===========================
 
 (async()=>{
 
     const ok = await checkLogin();
 
-    if(!ok) return;
+    if(!ok){
 
-    loadProducts();
+        return;
+
+    }
+
+    await loadProducts();
 
 })();
+
+
+// ===========================
+// REFRESH SAU KHI THAO TÁC
+// ===========================
+
+async function refreshProducts(){
+
+    await loadProducts();
+
+}
+
+
+// ===========================
+// PHÍM ESC ĐÓNG MODAL
+// ===========================
+
+document.addEventListener("keydown",(event)=>{
+
+    if(event.key==="Escape"){
+
+        productModal.style.display="none";
+
+        editModal.style.display="none";
+
+    }
+
+});
+
+
+// ===========================
+// KẾT THÚC FILE
+// ===========================
