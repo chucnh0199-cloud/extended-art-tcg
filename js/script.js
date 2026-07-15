@@ -1,62 +1,34 @@
-console.log("Website Extended Art TCG đã khởi động");
-fetch("data/cards.json")
-.then(response => response.json())
-.then(cards => {
+let allCards = [];
 
-    const cardList = document.getElementById("card-list");
 
-    cards.forEach(card => {
+async function loadHomeProducts(){
 
-        cardList.innerHTML += `
+    const { data, error } = await supabaseClient
+        .from("products")
+        .select("*")
+        .order("created_at", {
+            ascending:false
+        });
 
-<div class="card">
 
-    <div class="badge">
-        ${card.rarity || ""}
-    </div>
+    if(error){
 
-   <img
-    src="${card.image}"
-    onclick="openImage('${card.image}')"
->
-    <h3>${card.name}</h3>
+        console.error(error);
 
-    <p>${card.series}</p>
+        return;
 
-    <p class="price">${card.price}đ</p>
+    }
 
-    <div class="button-group">
 
-        <button onclick="location.href='product.html?name=${encodeURIComponent(card.name)}'">
-            Xem chi tiết
-        </button>
+    allCards = data;
 
-        <button onclick="addToCart('${card.name}')">
-            🛒 Thêm vào giỏ
-        </button>
 
-    </div>
+    showCards(allCards);
 
-</div>
+}
 
-`;
 
-    });
-
-});
-let allCards=[];
-
-fetch("data/cards.json")
-
-.then(r=>r.json())
-
-.then(cards=>{
-
-    allCards=cards;
-
-    showCards(cards);
-
-});
+loadHomeProducts();
 
 function showCards(cards){
 
