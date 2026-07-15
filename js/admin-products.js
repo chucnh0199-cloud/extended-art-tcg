@@ -515,17 +515,30 @@ async function deleteProduct(id){
     }
 
     // Xóa file ảnh trong Storage
-    if(product.image){
+if(product.image){
 
-        const fileName = product.image.split("/").pop();
+    const fileName = decodeURIComponent(
+        product.image.split("/").pop()
+    );
 
+    const { data, error: storageError } =
         await supabaseClient.storage
-
             .from("product-images")
-
             .remove([fileName]);
 
+    console.log("FILE:", fileName);
+    console.log("REMOVE DATA:", data);
+    console.log("REMOVE ERROR:", storageError);
+
+    if(storageError){
+
+        alert(storageError.message);
+
+        return;
+
     }
+
+}
 
     // Xóa dữ liệu trong bảng products
     const { error } = await supabaseClient
