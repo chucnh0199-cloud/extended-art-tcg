@@ -496,19 +496,45 @@ if(uploadError){
 
 async function deleteProduct(id){
 
-    const confirmDelete = confirm(
-        "Bạn có chắc muốn xóa sản phẩm này?"
-    );
+    if(!confirm("Bạn có chắc muốn xóa sản phẩm này?")) return;
 
-    if(!confirmDelete) return;
+    // Lấy thông tin sản phẩm
+    const { data: product, error: getError } =
+        await supabaseClient
+            .from("products")
+            .select("image")
+            .eq("id", id)
+            .single();
 
+    if(getError){
+
+        alert(getError.message);
+
+        return;
+
+    }
+
+    // Xóa file ảnh trong Storage
+    if(product.image){
+
+        const fileName = product.image.split("/").pop();
+
+        await supabaseClient.storage
+
+            .from("product-images")
+
+            .remove([fileName]);
+
+    }
+
+    // Xóa dữ liệu trong bảng products
     const { error } = await supabaseClient
 
         .from("products")
 
         .delete()
 
-        .eq("id",id);
+        .eq("id", id);
 
     if(error){
 
