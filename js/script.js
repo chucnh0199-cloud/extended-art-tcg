@@ -247,7 +247,7 @@ searchInput.addEventListener("input", function(){
     showCards(result);
 
 });
-function filterGame(game, button){
+function filterGame(category, button){
 
     document.querySelectorAll(".filter-btn").forEach(btn=>{
 
@@ -255,9 +255,11 @@ function filterGame(game, button){
 
     });
 
+
     button.classList.add("active");
 
-    if(game==="all"){
+
+    if(category==="all"){
 
         showCards(allCards);
 
@@ -265,7 +267,11 @@ function filterGame(game, button){
 
     }
 
-    const result = allCards.filter(card=>card.game===game);
+
+    const result = allCards.filter(card =>
+        card.category === category
+    );
+
 
     showCards(result);
 

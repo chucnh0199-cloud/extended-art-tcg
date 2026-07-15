@@ -286,6 +286,11 @@ document.getElementById("save-product").onclick=async()=>{
     const imageFile=
         document.getElementById("product-image").files[0];
 
+    const game = document.getElementById("game").value;
+    const card_set = document.getElementById("card_set").value;
+    const rarity = document.getElementById("rarity").value;
+    const series = document.getElementById("series").value;
+
     if(
 
         !name ||
@@ -337,13 +342,13 @@ document.getElementById("save-product").onclick=async()=>{
         .insert({
 
             name,
-
             category,
-
+            game,
+            card_set,
+            rarity,
+            series,
             price,
-
             description,
-
             image
 
         });
