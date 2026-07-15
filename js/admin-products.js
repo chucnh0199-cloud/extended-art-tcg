@@ -310,7 +310,7 @@ document.getElementById("save-product").onclick=async()=>{
 
             const { error: uploadError } = await supabaseClient.storage
 
-        .from("products")
+        .from("product-images")
 
         .upload(fileName, imageFile);
 
@@ -324,7 +324,7 @@ document.getElementById("save-product").onclick=async()=>{
 
     const { data: imageData } = supabaseClient.storage
 
-        .from("products")
+        .from("product-images")
 
         .getPublicUrl(fileName);
 
@@ -418,7 +418,7 @@ document.getElementById("save-edit").onclick = async () => {
 
         const { error: uploadError } =
             await supabaseClient.storage
-                .from("products")
+                .from("product-images")
                 .upload(fileName,imageFile);
 
         if(uploadError){
@@ -431,7 +431,7 @@ document.getElementById("save-edit").onclick = async () => {
 
         const { data:imageData } =
             supabaseClient.storage
-                .from("products")
+                .from("product-images")
                 .getPublicUrl(fileName);
 
         image = imageData.publicUrl;
