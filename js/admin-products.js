@@ -416,10 +416,23 @@ document.getElementById("save-edit").onclick = async () => {
         const fileName =
             Date.now()+"_"+imageFile.name;
 
-        const { error: uploadError } =
-            await supabaseClient.storage
-                .from("product-images")
-                .upload(fileName,imageFile);
+        const { data: uploadData, error: uploadError } =
+await supabaseClient.storage
+.from("product-images")
+.upload(fileName,imageFile);
+
+console.log("UPLOAD DATA:", uploadData);
+console.log("UPLOAD ERROR:", uploadError);
+
+if(uploadError){
+
+    console.error(uploadError);
+
+    alert(uploadError.message);
+
+    return;
+
+}
 
         if(uploadError){
 
